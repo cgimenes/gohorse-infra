@@ -6,8 +6,8 @@ services:
       - "80:80"
     network_mode: "host"
     volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ..:/webapps/gohorse/frontend
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../../gohorse-infra:/webapps/gohorse/frontend
   database:
     image: "postgres:alpine"
     ports:
