@@ -1,15 +1,25 @@
 version: '3'
 services:
-  frontend:
+  proxy:
     image: "nginx:alpine"
     ports:
       - "80:80"
     network_mode: "host"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  frontend:
+    image: "node:alpine"
+    command: "npm run dev"
+    working_dir: "/webapps/gohorse/frontend"
+    ports:
+      - "8080:8080"
+    network_mode: "host"
+    volumes:
       - ../../gohorse-infra:/webapps/gohorse/frontend
   database:
     image: "postgres:alpine"
+    ports:
+      - "8080:8080"
     ports:
       - "5432:5432"
     network_mode: "host"
