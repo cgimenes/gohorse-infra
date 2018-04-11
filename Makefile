@@ -1,5 +1,9 @@
 start-dev:
 	cd dev && docker-compose -p xgh up -d
+	docker stop xgh_graylog_1 xgh_elasticsearch_1
+
+start-dev-graylog:
+	cd dev && docker-compose -p xgh up -d
 
 start-prod:
 	echo "Tá faltando isso aqui!"
