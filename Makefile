@@ -14,5 +14,4 @@ start-dev-graylog:
 	cd dev && docker-compose -p xgh up -d
 
 start-prod:
-	echo "Tá faltando isso aqui!"
-	echo "Favor usar supervidord ou outra parada similar"
+	cd prod && docker-compose -p xgh up -d

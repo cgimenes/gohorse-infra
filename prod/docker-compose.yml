@@ -1,0 +1,12 @@
+version: '3'
+services:
+  jenkins:
+    build: jenkins
+    ports:
+     - "8080:8080"
+    volumes:
+     - /srv/jenkins_home:/var/jenkins_home
+    deploy:
+      restart_policy:
+        condition: any
+        max_attempts: 3
