@@ -29,6 +29,15 @@ services:
       POSTGRES_PASSWORD: "vaicavalo"
       POSTGRES_USER: "gohorse"
       POSTGRES_DB: "gohorse"
+  backend:
+     image: "openjdk:alpine"
+     ports:
+       - "8084:8084"
+     network_mode: "host"
+     volumes:
+       - ../../gohorse-backend:/webapps/gohorse/backend
+     working_dir: "/webapps/gohorse/backend"
+     command: "./gradlew bootRun"
   # MongoDB: https://hub.docker.com/_/mongo/
   mongo:
     image: mongo:3

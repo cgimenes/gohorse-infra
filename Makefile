@@ -1,3 +1,6 @@
+start-dev-backend:
+	cd dev && docker-compose -p xgh up -d proxy frontend database mongo backend
+
 start-dev:
 	cd dev && docker-compose -p xgh up -d proxy frontend database mongo
 
@@ -8,10 +11,7 @@ remove-containers:
 	cd dev && docker-compose -p xgh down
 
 install-deps:
-	docker run -v $(realpath ../gohorse-frontend):/webapps/gohorse/frontend -w /webapps/gohorse/frontend node:alpine npm install
+	docker run --rm -v $(realpath ../gohorse-frontend):/webapps/gohorse/frontend -w /webapps/gohorse/frontend node:alpine npm install
 
-start-dev-graylog:
+start-dev-all:
 	cd dev && docker-compose -p xgh up -d
-
-start-prod:
-	cd prod && docker-compose -p xgh up -d
