@@ -1,12 +1,110 @@
 version: '3'
 services:
+  # Jenkins
   jenkins:
     build: jenkins
-    ports:
-     - "8080:8080"
     volumes:
-     - /srv/jenkins_home:/var/jenkins_home
-    deploy:
-      restart_policy:
-        condition: any
-        max_attempts: 3
+     - /srv/jenkins_home:/var/jenkins_home:ro
+    restart: unless-stopped
+    networks:
+      - gohorse
+
+  # traefik
+  proxy:
+    image: traefik:alpine
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - gohorse
+    depends_on:
+      - frontend
+      - jenkins
+      - graylog
+
+  # nginx
+  frontend:
+    image: "com.xgh/gohorse-frontend"
+    restart: unless-stopped
+    networks:
+      - gohorse
+    depends_on:
+      - backend
+
+  # PostgreSQL
+  database:
+    image: "postgres:alpine"
+    environment:
+      POSTGRES_PASSWORD: "vaicavalo"
+      POSTGRES_USER: "gohorse"
+      POSTGRES_DB: "gohorse"
+    restart: unless-stopped
+    networks:
+      - gohorse
+
+  # Java
+  backend:
+    image: "com.xgh/gohorse-backend"
+    restart: unless-stopped
+    networks:
+      - gohorse
+    depends_on:
+      - database
+
+  # MongoDB
+  mongo:
+    image: mongo:3
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    networks:
+      - gohorse
+
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.8
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: unless-stopped
+    networks:
+      - gohorse
+
+  # Graylog
+  graylog:
+    image: graylog/graylog:2.4
+    volumes:
+      - graylog_journal:/usr/share/graylog/data/journal
+      - ./graylog/config:/usr/share/graylog/data/config:ro
+    restart: unless-stopped
+    networks:
+      - gohorse
+    depends_on:
+      - elasticsearch
+      - mongo
+
+# Volumes for persisting data
+volumes:
+  mongo_data:
+    driver: local
+  es_data:
+    driver: local
+  graylog_journal:
+    driver: local
+
+networks:
+  gohorse:
