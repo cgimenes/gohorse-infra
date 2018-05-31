@@ -4,7 +4,9 @@ services:
   jenkins:
     build: jenkins
     volumes:
-     - /srv/jenkins_home:/var/jenkins_home:ro
+     - ./jenkins/jenkins_home:/var/jenkins_home
+     - /usr/bin/docker:/usr/bin/docker
+     - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
       - gohorse
