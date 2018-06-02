@@ -5,7 +5,6 @@ services:
     build: jenkins
     volumes:
      - ./jenkins/jenkins_home:/var/jenkins_home
-     - /usr/bin/docker:/usr/bin/docker:ro
      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
