@@ -9,6 +9,9 @@ services:
     restart: unless-stopped
     networks:
       - gohorse
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:jenkins.gohorseapp.tk"
 
   # traefik
   proxy:
@@ -25,6 +28,7 @@ services:
       - gohorse
     depends_on:
       - frontend
+      - backend
       - jenkins
       - graylog
 
@@ -36,6 +40,9 @@ services:
       - gohorse
     depends_on:
       - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:gohorseapp.tk"
 
   # PostgreSQL
   database:
@@ -60,6 +67,10 @@ services:
       - gohorse
     depends_on:
       - database
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:api.gohorseapp.tk"
+      - "traefik.port=8084"
 
   # MongoDB
   mongo:
@@ -101,6 +112,9 @@ services:
     depends_on:
       - elasticsearch
       - mongo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:graylog.gohorseapp.tk"
 
 # Volumes for persisting data
 volumes:

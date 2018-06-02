@@ -144,11 +144,11 @@
 # Optional
 # Default: ""
 #
-domain = "docker.localhost"
+# domain = "docker.localhost"
 
 # Expose containers by default in traefik
 #
 # Optional
 # Default: true
 #
-# exposedByDefault = true
+exposedByDefault = false

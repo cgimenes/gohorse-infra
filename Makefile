@@ -17,4 +17,4 @@ start-dev-all:
 	cd dev && docker-compose -p xgh up -d
 
 start-prod:
-	cd prod && docker-compose -p xgh up --no-deps --no-recreate -d
+	cd prod && docker-compose -p xgh up -d
