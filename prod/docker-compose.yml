@@ -1,5 +1,12 @@
 version: '3'
 services:
+  # Watchtower
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "--no-pull --label-enable"
+
   # Jenkins
   jenkins:
     build: jenkins
@@ -43,6 +50,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:gohorseapp.tk"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # PostgreSQL
   database:
@@ -71,6 +79,7 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:api.gohorseapp.tk"
       - "traefik.port=8084"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # MongoDB
   mongo:
