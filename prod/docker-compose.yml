@@ -26,7 +26,6 @@ services:
     image: traefik:alpine
     ports:
       - "80:80"
-      - "8080:8080"
       - "443:443"
     volumes:
       - ./traefik/traefik.toml:/etc/traefik/traefik.toml:ro

@@ -108,7 +108,7 @@
   # Optional
   # Default: true
   #
-  # dashboard = false
+dashboard = false
 
 ################################################################
 # Ping configuration
