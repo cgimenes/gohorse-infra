@@ -78,6 +78,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:api.gohorseapp.tk"
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin:http://api.gohorseapp.tk"
       - "traefik.port=8084"
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
