@@ -14,7 +14,7 @@ install-deps:
 	docker run --rm -v $(realpath ../gohorse-frontend):/webapps/gohorse/frontend -w /webapps/gohorse/frontend node:alpine npm install
 
 start-dev-all:
-	cd dev && docker-compose -p xgh up -d
+	sudo systemctl start docker && cd dev && docker-compose -p xgh up -d
 
 start-prod:
 	cd prod && docker-compose -p xgh up -d
