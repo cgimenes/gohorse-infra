@@ -5,7 +5,7 @@ services:
     image: v2tec/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: "--no-pull --label-enable"
+    command: "--no-pull --label-enable --interval 60"
     restart: unless-stopped
 
   # Jenkins
