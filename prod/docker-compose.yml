@@ -5,7 +5,7 @@ services:
     image: v2tec/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: "--no-pull --label-enable"
+    command: "--no-pull --label-enable --interval 60"
     restart: unless-stopped
 
   # Jenkins
@@ -26,7 +26,6 @@ services:
     image: traefik:alpine
     ports:
       - "80:80"
-      - "8080:8080"
       - "443:443"
     volumes:
       - ./traefik/traefik.toml:/etc/traefik/traefik.toml:ro
@@ -81,6 +80,8 @@ services:
       - "traefik.frontend.rule=Host:api.gohorseapp.tk"
       - "traefik.port=8084"
       - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      spring_profiles_active: prod
 
   # MongoDB
   mongo:
